@@ -1,0 +1,5 @@
+User-Agent: *
+Allow: /
+Disallow: /lp/
+
+Sitemap: https://jeffersonplanilhas-cell.github.io/grupogest/sitemap.xml
