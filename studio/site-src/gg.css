@@ -54,7 +54,7 @@ section{position:relative}
 .top .wrap{display:flex;align-items:center;justify-content:space-between;gap:20px;min-height:60px}
 .brand{display:inline-flex;align-items:center;gap:10px;text-decoration:none}
 .brand img{width:26px;height:26px}
-.brand b{font-weight:400;font-size:19px;font-variation-settings:"wdth" 68,"wght" 820;letter-spacing:-.01em}
+.brand b{font-weight:800;font-size:19px;font-variation-settings:"wdth" 68,"wght" 820;letter-spacing:-.01em}
 .brand b i{font-style:normal;color:var(--signal)}
 .top nav{display:flex;gap:clamp(14px,2vw,28px);font-size:15px}
 .top nav a{text-decoration:none;color:var(--ink-2);padding-block:6px}
