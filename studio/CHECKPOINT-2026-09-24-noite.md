@@ -1,5 +1,7 @@
 # Checkpoint · reconstrução do site · 24/09/2026 (noite)
 
+> Substituído por `CHECKPOINT-2026-09-24-madrugada.md`. O push e o deploy desta lista já foram feitos.
+
 - **Branch:** `claude/vibrant-fermi-yrknqg`
 - **Fonte:** `studio/site-src/` (única). Gera a raiz do repositório, que o GitHub Pages serve.
 - **Build:** `python3 studio/site-src/build.py --prod --out . --base /grupogest/`
