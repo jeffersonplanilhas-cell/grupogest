@@ -44,210 +44,31 @@
     if (v) v.textContent = "+" + CONFIG.whatsapp.replace(/^(\d{2})(\d{2})(\d{4,5})(\d{4})$/, "$1 $2 $3-$4");
   });
 
-  // ── 1. Registro do hero: ruído → registro ──────────────────────────────
-  (function ledger() {
-    var led = $("#ledger"); if (!led) return;
-    var hero = led.closest(".hero");
-    var ins = $$(".lr-in", led);
-    var rules = $$(".lr-rule", led);
-    var replay = $("#ledger-replay");
-    var seed = 7;
-    function rnd() { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; }
-
-    function visibleRows() { return ins.filter(function (el) { return el.offsetParent !== null; }); }
-
-    function scatter() {
-      seed = 7 + Math.floor(Math.random() * 1000);
-      var H = hero.getBoundingClientRect(), vw = document.documentElement.clientWidth, vh = window.innerHeight;
-      // área visível do hero: o ruído acontece onde a pessoa está olhando
-      var V = { l: 6, r: vw - 6, t: Math.max(H.top, 64) + 8, b: Math.min(H.bottom, vh) - 12 };
-      if (V.b - V.t < 160) V = { l: 6, r: vw - 6, t: H.top + 8, b: H.bottom - 12 };
-      var side = $(".hero-side"), S = side ? side.getBoundingClientRect() : null;
-      var range = document.createRange();
-      visibleRows().forEach(function (el) {
-        el.style.transition = "none";
-        el.style.transform = "none";
-        var r = el.getBoundingClientRect();
-        range.selectNodeContents(el);
-        var tw = Math.min(range.getBoundingClientRect().width, r.width);
-        var sc = 0.95 + rnd() * (vw < 600 ? 0.2 : 0.55), w = Math.min(tw * sc, (V.r - V.l) * 0.94), tx, ty, tries = 0;
-        do {
-          tx = V.l + rnd() * Math.max(4, V.r - V.l - w);
-          ty = V.t + rnd() * Math.max(4, V.b - V.t - 34);
-          tries++;
-        } while (S && tries < 40 && tx < S.right + 8 && tx + w > S.left - 8 && ty < S.bottom + 8 && ty + 34 > S.top - 8);
-        var rot = (rnd() - 0.5) * 12;
-        el.style.transform = "translate(" + Math.round(tx - r.left) + "px," + Math.round(ty - r.top) + "px) rotate(" + rot.toFixed(1) + "deg) scale(" + sc.toFixed(2) + ")";
+  // ── O mapa: partes de um sistema ───────────────────────────────────────
+  (function mapa() {
+    var tabs = $$(".st"); if (!tabs.length) return;
+    function show(k, focus) {
+      tabs.forEach(function (t) {
+        var sel = t.dataset.k === k;
+        t.setAttribute("aria-selected", sel ? "true" : "false");
+        t.tabIndex = sel ? 0 : -1;
+        if (sel && focus) t.focus();
       });
-      void led.offsetWidth;
+      $$(".sp").forEach(function (p) { p.classList.toggle("is-on", p.dataset.k === k); });
     }
-
-    function order() {
-      led.classList.add("is-ordering");
-      visibleRows().forEach(function (el, i) {
-        var d = i * 55;
-        el.style.transition = "transform .95s var(--ease) " + d + "ms, font-variation-settings .95s var(--ease) " + d + "ms, color .95s var(--ease) " + d + "ms";
-        el.style.transform = "none";
-      });
-      rules.forEach(function (el, i) { el.style.setProperty("--d", (900 + i * 70) + "ms"); });
-      led.classList.remove("is-noise");
-      setTimeout(function () {
-        led.classList.remove("is-ordering");
-        rules.forEach(function (el) { el.style.removeProperty("--d"); });
-      }, 2200);
-    }
-
-    function run(delay) {
-      if (reduce) { led.classList.remove("is-noise"); led.classList.add("is-ready"); return; }
-      led.classList.add("is-noise");
-      scatter();
-      led.classList.add("is-ready");
-      setTimeout(order, delay);
-    }
-
-    if (reduce) { led.classList.add("is-ready"); if (replay) replay.hidden = true; return; }
-
-    var started = false;
-    function start() { if (started) return; started = true; run(650); }
-    if ("IntersectionObserver" in window) {
-      var io = new IntersectionObserver(function (es) {
-        es.forEach(function (e) { if (e.isIntersecting) { start(); io.disconnect(); } });
-      }, { threshold: 0.25, rootMargin: "0px 0px -35% 0px" });
-      io.observe(led);
-    } else start();
-    // se as fontes chegarem depois, a posição final se ajusta sozinha (transform relativo)
-    if (replay) replay.addEventListener("click", function () { run(250); });
-  })();
-
-  // ── 2. A máquina: entrada → regra → ação e resultado ───────────────────
-  (function machine() {
-    var root = $("#mach"); if (!root) return;
-    var SCRIPT = [
-      { ch: "whatsapp", t: "boa tarde! 40 caixas do modelo 42 até sexta, boleto pro financeiro", r: "pedido", ok: "pedido registrado · boleto emitido", man: "alguém redigita o pedido e emite o boleto" },
-      { ch: "e-mail", t: "segue o comprovante da parcela de setembro, R$ 1.280", r: "pagamento", ok: "parcela baixada · recibo enviado", man: "alguém confere o extrato e dá baixa" },
-      { ch: "site", t: "vocês entregam em Ribeirão Preto?", r: "pergunta", ok: "respondido com a tabela de frete", man: "alguém responde quando vir" },
-      { ch: "whatsapp", t: "quero 15 pares do 38, cor café", r: "pedido", ok: "pedido registrado · link de pagamento enviado", man: "alguém anota e manda o link" },
-      { ch: "agenda", t: "sexta, 17h: fechamento da semana", r: "resumo", ok: "resumo da semana enviado ao sócio", man: "alguém junta as planilhas" },
-      { ch: "whatsapp", t: "paguei no pix agora, R$ 640", r: "pagamento", ok: "pagamento conciliado", man: "alguém confere o banco" },
-      { ch: "site", t: "qual o prazo de entrega?", r: "pergunta", ok: "respondido na hora", man: "alguém responde depois" },
-      { ch: "e-mail", t: "pedido 1182: 60 caixas do 40, entrega dia 30", r: "pedido", ok: "pedido registrado · separação avisada", man: "alguém redigita no sistema" },
-      { ch: "whatsapp", t: "o boleto venceu, pode mandar outro?", r: "pagamento", ok: "2ª via enviada", man: "alguém gera a 2ª via" },
-      { ch: "site", t: "vocês emitem nota fiscal?", r: "pergunta", ok: "respondido com o procedimento", man: "alguém responde depois" }
-    ];
-    var rules = {};
-    $$(".rule", root).forEach(function (b) { rules[b.dataset.r] = b.getAttribute("aria-checked") === "true"; });
-    var qEl = $("#m-queue"), aEl = $("#m-auto"), mEl = $("#m-man"), nowEl = $("#m-now");
-    var aN = $("#m-auto-n"), mN = $("#m-man-n");
-    var btnPlay = $("#m-play"), btnStep = $("#m-step"), btnReset = $("#m-reset");
-    var idx = 0, doneCount = 0, queue = [], pile = [], timer = null, userPaused = false, visible = false, pageHidden = false;
-    var MAX_LOG = 5;
-
-    function el(item, cls, text2) {
-      var li = document.createElement("li");
-      li.className = "item " + (cls || "");
-      var ch = document.createElement("span"); ch.className = "ch mono"; ch.textContent = item.ch;
-      var t = document.createElement("span"); t.className = "t"; t.textContent = item.t;
-      li.appendChild(ch); li.appendChild(t);
-      if (text2) { var r = document.createElement("span"); r.className = "res mono"; r.textContent = text2; li.appendChild(r); }
-      li._item = item;
-      return li;
-    }
-    function counts() {
-      aN.textContent = doneCount; mN.textContent = pile.length;
-    }
-    function flip(fromEl, toEl) {
-      if (reduce || !fromEl || !fromEl.isConnected || !toEl.animate) return;
-      var a = fromEl.getBoundingClientRect(), b = toEl.getBoundingClientRect();
-      var dx = a.left - b.left, dy = a.top - b.top;
-      toEl.animate([{ transform: "translate(" + dx + "px," + dy + "px)", opacity: .9 }, { transform: "none", opacity: 1 }], { duration: 620, easing: "cubic-bezier(.7,0,.2,1)" });
-    }
-    function trim(list, max) { while (list.children.length > max) list.removeChild(list.lastElementChild); }
-
-    function arrive() {
-      var item = SCRIPT[idx % SCRIPT.length]; idx++;
-      var li = el(item, reduce ? "" : "enter");
-      qEl.insertBefore(li, qEl.firstChild);
-      queue.push(li);
-      if (nowEl) nowEl.textContent = item.ch + " · " + item.t;
-    }
-    function processOldest() {
-      var li = queue.shift(); if (!li) return;
-      var item = li._item, auto = !!rules[item.r];
-      var out;
-      if (auto) {
-        out = el(item, "auto", item.ok);
-        aEl.insertBefore(out, aEl.firstChild);
-        doneCount++;
-        trim(aEl, MAX_LOG);
-      } else {
-        out = el(item, "man", item.man);
-        mEl.insertBefore(out, mEl.firstChild);
-        pile.push(out);
-        trim(mEl, MAX_LOG + 1);
-      }
-      flip(li, out);
-      li.remove();
-      counts();
-    }
-    function tick() {
-      if (queue.length >= 2) processOldest();
-      arrive();
-    }
-    function drain(rule) {
-      var moving = pile.filter(function (p) { return p._item.r === rule; });
-      moving.forEach(function (p, i) {
-        setTimeout(function () {
-          var item = p._item;
-          var out = el(item, "auto", item.ok);
-          aEl.insertBefore(out, aEl.firstChild);
-          flip(p, out);
-          if (p.isConnected) p.remove();
-          doneCount++;
-          pile = pile.filter(function (x) { return x !== p; });
-          trim(aEl, MAX_LOG);
-          counts();
-        }, reduce ? 0 : i * 140);
-      });
-    }
-    function setRunning() {
-      var should = !reduce && !userPaused && visible && !pageHidden;
-      if (should && !timer) timer = setInterval(tick, 1700);
-      if (!should && timer) { clearInterval(timer); timer = null; }
-      if (btnPlay) {
-        btnPlay.textContent = userPaused ? "Continuar" : "Pausar";
-        btnPlay.setAttribute("aria-pressed", userPaused ? "true" : "false");
-        btnPlay.hidden = reduce;
-      }
-    }
-    function reset() {
-      qEl.innerHTML = ""; aEl.innerHTML = ""; mEl.innerHTML = "";
-      idx = 0; doneCount = 0; queue = []; pile = [];
-      // estado inicial completo: algo feito, algo parado, algo chegando
-      for (var i = 0; i < 4; i++) { arrive(); if (queue.length >= 2) processOldest(); }
-      $$(".item", root).forEach(function (n) { n.classList.remove("enter"); n.getAnimations && n.getAnimations().forEach(function (a) { a.finish(); }); });
-      counts();
-    }
-
-    $$(".rule", root).forEach(function (b) {
-      b.addEventListener("click", function () {
-        var on = b.getAttribute("aria-checked") !== "true";
-        b.setAttribute("aria-checked", on ? "true" : "false");
-        rules[b.dataset.r] = on;
-        if (on) drain(b.dataset.r);
+    tabs.forEach(function (t, i) {
+      t.addEventListener("click", function () { show(t.dataset.k); });
+      t.addEventListener("keydown", function (e) {
+        var n = null;
+        if (e.key === "ArrowRight" || e.key === "ArrowDown") n = tabs[(i + 1) % tabs.length];
+        if (e.key === "ArrowLeft" || e.key === "ArrowUp") n = tabs[(i - 1 + tabs.length) % tabs.length];
+        if (e.key === "Home") n = tabs[0];
+        if (e.key === "End") n = tabs[tabs.length - 1];
+        if (n) { e.preventDefault(); show(n.dataset.k, true); }
       });
     });
-    if (btnPlay) btnPlay.addEventListener("click", function () { userPaused = !userPaused; setRunning(); });
-    if (btnStep) btnStep.addEventListener("click", function () { tick(); });
-    if (btnReset) btnReset.addEventListener("click", function () { reset(); });
-
-    reset();
-    if ("IntersectionObserver" in window) {
-      new IntersectionObserver(function (es) {
-        es.forEach(function (e) { visible = e.isIntersecting; setRunning(); });
-      }, { threshold: 0.25 }).observe(root);
-    } else { visible = true; setRunning(); }
-    document.addEventListener("visibilitychange", function () { pageHidden = document.hidden; setRunning(); });
-    setRunning();
+    var start = tabs.filter(function (t) { return t.getAttribute("aria-selected") === "true"; })[0] || tabs[0];
+    show(start.dataset.k);
   })();
 
   // ── 3. A conta do trabalho repetido ────────────────────────────────────
@@ -306,8 +127,32 @@
     var submit = $("button[type=submit]", f);
     if (CONFIG.formEndpoint && submit) submit.firstChild.textContent = "Enviar mensagem ";
     if (f.dataset.intent && !problem.value && INTENTS[f.dataset.intent]) problem.value = INTENTS[f.dataset.intent] + "\n";
+    function topics() { return $$("input[name=assunto]:checked", f).map(function (c) { return c.value; }); }
     function compose() {
-      return "Olá, GrupoGest.\n\nNome: " + name.value.trim() + "\nResposta por: " + contact.value.trim() + "\n\nO que trava:\n" + problem.value.trim() + "\n\n(mensagem montada no site)";
+      var t = topics();
+      return "Olá, GrupoGest.\n\nNome: " + name.value.trim() + "\nResposta por: " + contact.value.trim() + (t.length ? "\nAssunto: " + t.join(", ") : "") + "\n\nO que trava:\n" + problem.value.trim() + "\n\n(mensagem montada no site)";
+    }
+    // a mensagem vira um papel e cai na caixa de entrada
+    function drop() {
+      var slot = $("#tray-slot"); if (!slot) return;
+      var old = $(".paper", slot); if (old) old.remove();
+      var t = topics();
+      var p = document.createElement("div");
+      p.className = "paper tray-paper";
+      var now = new Date();
+      var pc = document.createElement("span"); pc.className = "pc mono"; pc.textContent = "site · " + String(now.getHours()).padStart(2, "0") + ":" + String(now.getMinutes()).padStart(2, "0") + (t.length ? " · " + t.slice(0, 2).join(", ") : "");
+      var pt = document.createElement("span"); pt.className = "pt"; var txt = problem.value.trim().replace(/\s+/g, " "); pt.textContent = txt.length > 110 ? txt.slice(0, 108) + "…" : txt;
+      var pn = document.createElement("span"); pn.className = "pn mono"; pn.textContent = name.value.trim();
+      p.appendChild(pc); p.appendChild(pt); p.appendChild(pn);
+      slot.appendChild(p);
+      slot.classList.add("has-paper");
+      if (reduce || !p.animate) { p.classList.add("is-in"); return; }
+      var a = problem.getBoundingClientRect(), b = p.getBoundingClientRect();
+      p.animate([
+        { transform: "translate(" + (a.left - b.left) + "px," + (a.top - b.top) + "px) rotate(-4deg) scale(.96)", opacity: 0.2 },
+        { transform: "translate(" + ((a.left - b.left) * 0.4) + "px," + ((a.top - b.top) * 0.55 - 40) + "px) rotate(6deg)", opacity: 1, offset: 0.45 },
+        { transform: "none", opacity: 1 }
+      ], { duration: 900, easing: "cubic-bezier(.5,0,.2,1)" }).onfinish = function () { p.classList.add("is-in"); };
     }
     function mark(el, bad) { el.setAttribute("aria-invalid", bad ? "true" : "false"); }
     f.addEventListener("submit", function (e) {
@@ -315,6 +160,7 @@
       var missing = [name, contact, problem].filter(function (x) { var bad = !x.value.trim(); mark(x, bad); return bad; });
       if (missing.length) { note.textContent = "Faltou preencher: " + missing.map(function (x) { return x.dataset.label; }).join(", ") + "."; missing[0].focus(); return; }
       var msg = compose();
+      drop();
       if (CONFIG.formEndpoint) {
         note.textContent = "Enviando…";
         var data = new FormData(); data.append("nome", name.value); data.append("contato", contact.value); data.append("mensagem", msg); data.append("_subject", "Contato pelo site da GrupoGest");

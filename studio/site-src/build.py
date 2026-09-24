@@ -183,8 +183,8 @@ def header(p, home=False, current=""):
   <div class="wrap">
     <a class="brand" href="{p}" aria-label="GrupoGest, início"><img src="{p}assets/icon.svg" alt="" width="26" height="26"><b aria-hidden="true">Grupo<i>Gest</i></b></a>
     <nav aria-label="Principal">
-      <a href="{h}#maquina">O sistema</a>
-      <a href="{h}#capacidade">O que construímos</a>
+      <a href="{h}#capacidade">O sistema</a>
+      <a href="{h}#metodo">Como funciona</a>
       <a href="{h}#prova">Prova</a>
       <a href="{p}parcerias/"{cur('parcerias')}>Agências</a>
     </nav>
@@ -211,8 +211,8 @@ def footer(p, noindex):
     <nav aria-label="Site">
       <span class="mono">site</span>
       <a href="{p}">Início</a>
-      <a href="{p}#maquina">O sistema</a>
-      <a href="{p}#capacidade">O que construímos</a>
+      <a href="{p}#capacidade">O sistema</a>
+      <a href="{p}#metodo">Como funciona</a>
       <a href="{p}#prova">Prova</a>
       <a href="{p}contato/">Contato</a>
     </nav>
@@ -250,18 +250,26 @@ def talk(p, heading="Conte o que trava.", intent="", hid="conversa", h1=False, c
         <div class="way" data-whatsapp-row><div><div class="k mono">whatsapp</div><div class="v" data-whatsapp-num></div></div><a class="ctl on-ink" href="#" rel="noopener">Abrir conversa</a></div>
         <div class="way"><div><div class="k mono">e-mail</div><div class="v" data-email>{EMAIL}</div></div><button class="ctl on-ink" type="button" data-copy-email>Copiar</button></div>
       </div>
-      <p class="mono form-note">resposta por e-mail em até 1 dia útil</p>
     </div>
     <form class="form" id="talk-form" novalidate{di}>
+      <fieldset class="chips">
+        <legend class="mono">o que está travando (marque o que servir)</legend>
+        {"".join(f'<label class="chip"><input type="checkbox" name="assunto" value="{v}"><span>{v}</span></label>' for v in ["pedidos", "cobrança", "agenda", "atendimento", "planilha e números", "site", "sistema", "integração", "outra coisa"])}
+      </fieldset>
       <div class="row2">
         <label for="f-name">Seu nome<input id="f-name" name="nome" autocomplete="name" required data-label="nome"></label>
         <label for="f-contact">WhatsApp ou e-mail para a resposta<input id="f-contact" name="contato" autocomplete="email" inputmode="email" required data-label="como responder"></label>
       </div>
-      <label for="f-problem">O que trava hoje<textarea id="f-problem" name="problema" required data-label="o que trava" placeholder="O que acontece, quem faz, onde trava. Sem formalidade."></textarea></label>
+      <label for="f-problem">Em três linhas: o que acontece hoje?<textarea id="f-problem" name="problema" required data-label="o que trava" placeholder="O que acontece, quem faz, onde trava. Sem formalidade."></textarea></label>
       <div class="form-foot">
-        <button class="btn primary" type="submit">Montar a mensagem <span class="arr" aria-hidden="true">→</span></button>
+        <button class="btn primary" type="submit">Transformar em mensagem <span class="arr" aria-hidden="true">→</span></button>
         <p class="mono form-note" id="f-note" aria-live="polite"></p>
       </div>
+      <div class="tray" aria-live="polite">
+        <p class="tray-k mono"><span>caixa de entrada · GrupoGest</span><span>resposta em até 1 dia útil</span></p>
+        <div class="tray-slot" id="tray-slot"><span class="tray-empty mono">sua mensagem vira um papel e cai aqui</span></div>
+      </div>
+
       <div class="fallback" id="f-fallback" hidden>
         <p>Sua mensagem está pronta. Escolha como enviar:</p>
         <div class="acts">
@@ -280,36 +288,61 @@ def talk(p, heading="Conte o que trava.", intent="", hid="conversa", h1=False, c
 
 # ────────────────────────────── home ──────────────────────────────
 
-LEDGER = [
-  ("cadê o boleto do mês?", "cobrança · sai sozinha", False),
-  ("40 caixas do modelo 42 até sexta", "pedido · registrado", False),
-  ("ela pagou? confere o extrato", "pagamento · baixa automática", False),
-  ("manda de novo aquela planilha", "dados · fonte única", True),
-  ("qual versão vale?", "histórico · uma versão só", False),
-  ("quem ficou de ligar pro cliente?", "retorno · lembrete na hora", True),
-  ("remarca a Ana pra quinta, 15h", "agenda · confirmada", False),
-  ("junta os números pro sócio", "painel · sexta, 17h", False),
-  ("copia do WhatsApp pro sistema", "integração · sem redigitar", True),
-  ("o site saiu do ar?", "monitor · alerta automático", True),
+PAPERS = [
+  ("pedido", "whatsapp · 09:12", "40 caixas do modelo 42 até sexta", True),
+  ("pagamento", "whatsapp · 08:55", "paguei no pix agora, R$ 640", True),
+  ("agenda", "whatsapp · 08:15", "remarca a Ana pra quinta, 15h", True),
+  ("pergunta", "site · 10:05", "vocês entregam em Ribeirão Preto?", True),
+  ("numeros", "planilha · 17:58", "estoque_v3_FINAL(2).xlsx", True),
+  ("pedido", "e-mail · 10:40", "pedido 1182: 60 caixas do 40", True),
+  ("pagamento", "e-mail · 11:20", "segue o comprovante de setembro", True),
+  ("numeros", "sócio · 18:10", "junta os números pra sexta", True),
+  ("pedido", "site · 14:03", "15 pares do 38, cor café", False),
+  ("pagamento", "whatsapp · 16:47", "o boleto venceu, manda outro?", False),
+  ("agenda", "telefone · 13:30", "dá pra encaixar hoje à tarde?", False),
+  ("pergunta", "instagram · 15:22", "qual o prazo de entrega?", False),
+  ("pedido", "whatsapp · 11:02", "mesmo pedido da semana passada", False),
+  ("pagamento", "banco · 07:30", "extrato.pdf (conferir)", False),
+  ("agenda", "e-mail · 09:48", "visita técnica: confirma terça?", False),
+  ("pergunta", "whatsapp · 12:10", "tem o 41 em estoque?", False),
+]
+LANES = [
+  ("pedido", "pedidos", "registra e emite a cobrança"),
+  ("pagamento", "pagamentos", "confere o extrato e dá baixa"),
+  ("agenda", "agenda", "confirma e avisa a equipe"),
+  ("pergunta", "perguntas", "responde na hora"),
+  ("numeros", "números", "painel pronto na sexta"),
 ]
 
-RULES = [
-  ("pedido", "Pedido completo", "registra no sistema e emite a cobrança", True),
-  ("pagamento", "Pagamento e cobrança", "confere, dá baixa ou manda a 2ª via", False),
-  ("pergunta", "Pergunta frequente", "responde na hora, com a informação certa", False),
-  ("resumo", "Sexta, 17h", "junta os números e envia o resumo", False),
-]
-
-CAPS = [
-  ("sites", "Sites e landing pages", "O cliente procura sua empresa e acha um link quebrado, um perfil ou nada.", "Site rápido, encontrável no Google, com contato em todas as dobras.", "Landing de lead magnet construída e testada", "R$ 690 a R$ 1.500"),
-  ("automacao", "Automação", "Alguém copia, confere e lembra todo dia o que uma regra faria melhor.", "Fluxo em n8n ou Python, com registro do que rodou e tratamento de erro.", "Pipeline n8n + PostgreSQL + webhooks validado", "a partir de R$ 150"),
-  ("integracoes", "Integrações", "O pedido entra num sistema e alguém redigita no outro.", "Ponte com fila, repetição e alerta quando a integração para.", "Mercado Pago e Melhor Envio integrados em loja própria", "sob orçamento"),
-  ("sistemas", "Sistemas sob medida", "A planilha virou o sistema da empresa, e o maior risco dela.", "Web, API e aplicativo com acesso por usuário, regra e histórico.", "Construa360: FastAPI, PostgreSQL, 400+ testes, app Expo", "sob orçamento"),
-  ("ecommerce", "E-commerce", "A loja vende, mas pagamento, frete e expedição dependem de alguém conferir.", "Loja em Next.js com Pix, cartão, frete calculado e confirmação por webhook.", "Loja própria completa em Next.js", "sob orçamento"),
-  ("dashboards", "Dados e indicadores", "O número da semana só existe depois de uma tarde juntando planilha.", "Painel que se atualiza sozinho, a partir de uma fonte única.", "Painel operacional próprio gerado por script", "planilha a partir de R$ 450"),
+STATIONS = [
+  ("entrada", "Entrada", "onde o trabalho chega",
+   "Site, formulário, loja e WhatsApp oficial recebendo pedido, pergunta e pagamento, cada um já no formato certo.",
+   [("sites", "Sites e landing pages"), ("ecommerce", "E-commerce")],
+   "Loja em Next.js com Pix e cartão via Mercado Pago; landing de lead magnet testada.", "site de R$ 690 a R$ 1.500"),
+  ("regra", "Regra", "o que decide",
+   "Fluxo em n8n ou Python que confere se veio completo, separa o urgente e decide o próximo passo, com registro do que rodou.",
+   [("automacao", "Automação")],
+   "Pipeline n8n + PostgreSQL + webhooks validado ponta a ponta.", "a partir de R$ 150"),
+  ("ponte", "Ponte", "o dado passa sozinho",
+   "Integração entre as ferramentas que você já paga: APIs e webhooks com fila, repetição e alerta quando para.",
+   [("integracoes", "Integrações")],
+   "Mercado Pago e Melhor Envio integrados em loja própria.", "sob orçamento"),
+  ("registro", "Registro", "um lugar só",
+   "Sistema web e API com acesso por usuário, regra que não pode ser burlada e histórico de quem mudou o quê.",
+   [("sistemas", "Sistemas sob medida")],
+   "Construa360: FastAPI, PostgreSQL e mais de 400 testes automatizados (produto próprio).", "sob orçamento"),
+  ("painel", "Painel", "os números saem sozinhos",
+   "Painel que se atualiza a partir de uma fonte única e responde a pergunta que muda a decisão da semana.",
+   [("dashboards", "Dados e indicadores")],
+   "Painel operacional próprio gerado por script, lendo banco real.", "planilha a partir de R$ 450"),
+  ("rua", "Na rua", "a equipe no celular",
+   "Aplicativo para quem trabalha fora consultar e registrar do celular, no mesmo sistema do escritório.",
+   [("sistemas", "Sistemas sob medida")],
+   "App do Construa360 em Expo/React Native, com build configurado (ainda não publicado em loja).", "sob orçamento"),
 ]
 
 PROOF = [
+  ("Este site", "em uso agora", 'A pilha de papéis, o mapa e o formulário foram escritos à mão, sem framework de interface: cerca de 11 KB de JavaScript próprio comprimido, mais um motor de física de código aberto que só carrega quando a pilha aparece. O código é público, no <a href="https://github.com/jeffersonplanilhas-cell/grupogest" rel="noopener">GitHub</a>.'),
   ("Construa360", "produto próprio · pré-lançamento", "Gestão de obras: equipe, ponto, financeiro e suprimentos. Python/FastAPI, PostgreSQL, mais de 400 testes automatizados e app em Expo/React Native. Não é case de cliente."),
   ("Calculadora de prejuízo na obra", "landing pública do Construa360", "Estima a perda mensal de uma obra a partir de índices da literatura brasileira. Roda inteira no navegador, sem rastreamento, com a metodologia aberta."),
   ("Loja em Next.js", "projeto interno", "Catálogo, carrinho e checkout com Pix e cartão via Mercado Pago, frete pelo Melhor Envio e confirmação de pagamento por webhook."),
@@ -332,81 +365,72 @@ def home(p, noindex):
           "address": {"@type": "PostalAddress", "addressLocality": "Franca", "addressRegion": "SP", "addressCountry": "BR"},
           "knowsAbout": ["automação de processos", "integração de sistemas", "sistemas sob medida", "desenvolvimento web"]}
     extra = f'<script type="application/ld+json">{json.dumps(ld, ensure_ascii=False)}</script>\n'
-    rows = "\n".join(
-        f'        <li class="lrow{" is-hidden-mobile" if hid else ""}"><span class="lr-in">{a}</span><span class="lr-rule mono">{b}</span></li>'
-        for a, b, hid in LEDGER)
-    rules = "\n".join(
-        f'''          <button class="rule" type="button" role="switch" aria-checked="{"true" if on else "false"}" data-r="{k}"><span class="sw" aria-hidden="true"></span><span class="rt">{t}</span><span class="ra">{a}</span></button>'''
-        for k, t, a, on in RULES)
-    caps = "\n".join(f'''      <li><a class="caprow" href="{p}solucoes/{k}/">
-        <h3>{n}</h3>
-        <p><span class="c-k mono">quando</span>{q}</p>
-        <p class="c-deliv"><span class="c-k mono">a gente entrega</span>{e}</p>
-        <p class="c-proof"><span class="c-k mono">já construímos</span>{pr}</p>
-        <p><span class="c-k mono">investimento</span><span class="price">{pv}</span><span class="go mono">ver detalhes →</span></p>
-      </a></li>''' for k, n, q, e, pr, pv in CAPS)
-    proof = "\n".join(f'''        <li class="pitem"><h3>{n}</h3><span class="st mono">{s}</span><p>{d}</p></li>''' for n, s, d in PROOF)
+    papers = "\n".join(
+        f'      <li class="paper{"" if m else " desk-only"}" data-t="{t}"><span class="pc mono">{c}</span><span class="pt">{x}</span></li>'
+        for t, c, x, m in PAPERS)
+    lanes = "\n".join(
+        f'      <li class="lane" data-t="{t}"><span class="lane-h"><b>{n}</b> <span class="lane-n mono">0</span></span><span class="lane-slot" aria-hidden="true"></span><span class="lane-r mono">{r}</span></li>'
+        for t, n, r in LANES)
+    station_tabs = "\n".join(
+        f'      <button class="st" type="button" role="tab" id="st-{k}" aria-controls="sp-{k}" aria-selected="{"true" if k == "regra" else "false"}" tabindex="{0 if k == "regra" else -1}" data-k="{k}"><span class="st-i mono">{i + 1:02d}</span><b>{n}</b><span class="st-s mono">{sub}</span></button>'
+        for i, (k, n, sub, d, caps_, pr, pv) in enumerate(STATIONS))
+    station_panels = "\n".join(
+        f'''    <div class="sp" role="tabpanel" id="sp-{k}" aria-labelledby="st-{k}" tabindex="0" data-k="{k}">
+      <h3 class="sp-h"><span class="mono">{i + 1:02d} · {sub}</span>{n}</h3>
+      <dl class="sp-d">
+        <div><dt class="mono">a gente constrói</dt><dd>{d}</dd></div>
+        <div><dt class="mono">já existe</dt><dd>{pr}</dd></div>
+        <div><dt class="mono">investimento</dt><dd class="sp-p">{pv}</dd></div>
+      </dl>
+      <p class="sp-links">{" ".join(f'<a class="link" href="{p}solucoes/{sk}/">{sn} <span aria-hidden="true">→</span></a>' for sk, sn in caps_)}</p>
+    </div>'''
+        for i, (k, n, sub, d, caps_, pr, pv) in enumerate(STATIONS))
+    proof = "\n".join(f'''        <li class="pitem"><h3>{n}</h3><span class="pst mono">{s}</span><p>{d}</p></li>''' for n, s, d in PROOF)
     steps = "\n".join(f'''      <li class="step"><span class="sn mono">{i + 1} de 5</span><h3>{t}</h3><p>{d}</p><p class="out mono"><b>sai daqui:</b> {o}</p></li>''' for i, (t, d, o) in enumerate(STEPS))
     return head(p, "GrupoGest · do caos ao sistema",
                 "A GrupoGest transforma trabalho manual em sistema que roda sozinho: sites, sistemas, automações e integrações sob medida, com escopo e preço fechados antes de começar.",
                 "", noindex, extra) + header(p, home=True) + f"""<main id="conteudo">
 
-<section class="hero" aria-labelledby="hero-h">
-  <div class="wrap grid hero-grid">
-    <p class="mono where">Franca/SP · sistemas, sites, automação e integrações para empresas de todo o Brasil</p>
-    <h1 class="h1" id="hero-h"><span>Trabalho manual vira sistema</span><span class="soft">que roda sozinho.</span></h1>
-    <div class="hero-side">
-      <p class="hero-lede">A gente encontra o que sua equipe repete todo dia (copiar, conferir, cobrar, lembrar) e constrói o que faz isso por ela. Com registro de tudo e preço fechado antes de começar.</p>
-      <div class="cta-row">
-        <a class="btn primary" href="#conversa">Conversar sobre a demanda <span class="arr" aria-hidden="true">→</span></a>
-        <a class="link" href="#maquina">Ver o sistema funcionando</a>
-      </div>
+<section class="pilha" id="pilha" aria-labelledby="hero-h">
+  <div class="wrap pilha-grid">
+    <div class="pilha-copy">
+      <p class="mono where">Franca/SP · sistemas, sites, automação e integrações para empresas de todo o Brasil</p>
+      <h1 class="h1 pilha-h1" id="hero-h"><span class="ln">Trabalho manual</span> <span class="ln">vira sistema</span> <span class="ln soft">que roda sozinho.</span></h1>
     </div>
-    <div class="ledger" id="ledger">
-      <div class="ledger-head mono"><span>registro · exemplo</span><span class="wide-only">o que chega → a regra que resolve</span></div>
-      <ol class="lrows" aria-label="Exemplos de pedidos do dia a dia e a regra que resolve cada um">
-{rows}
-      </ol>
-      <div class="ledger-foot mono"><span>cada frase repetida vira uma regra</span><button type="button" id="ledger-replay">embaralhar</button></div>
-    </div>
-  </div>
-</section>
-
-<section class="machine" id="maquina" aria-labelledby="maq-h">
-  <div class="wrap">
-    <div class="grid">
-      <h2 class="thesis" id="maq-h">Toda empresa já tem um sistema. <span>Às vezes, ele é uma pessoa que não pode tirar férias.</span></h2>
-      <p class="lede machine-lede">Ligue e desligue as regras. Cada mensagem que chega é resolvida pelo sistema ou fica esperando alguém.</p>
-    </div>
-    <div class="mach" id="mach">
-      <div class="mcol m-in"><header class="mono"><b>entrada</b><span>chegando agora</span></header><ol class="mlist" id="m-queue" aria-label="Mensagens chegando"></ol></div>
-      <p class="now mono" id="m-now" aria-live="off"></p>
-      <div class="mcol m-rules"><header class="mono"><b>regra</b><span>ligue para o sistema assumir</span></header>
-        <div class="rules">
-{rules}
-        </div>
-      </div>
-      <div class="mcol is-auto"><header class="mono"><b>feito pelo sistema</b><span class="n" id="m-auto-n">0</span></header><ol class="mlist" id="m-auto" aria-label="Feito pelo sistema"></ol></div>
-      <div class="mcol is-man"><header class="mono"><b>esperando alguém</b><span class="n" id="m-man-n">0</span></header><ol class="mlist" id="m-man" aria-label="Esperando alguém"></ol></div>
-    </div>
-    <div class="mach-bar">
-      <button class="ctl" type="button" id="m-play" aria-pressed="false">Pausar</button>
-      <button class="ctl" type="button" id="m-step">Processar próxima</button>
-      <button class="ctl" type="button" id="m-reset">Recomeçar</button>
-      <span class="note mono">exemplo ilustrativo de uma distribuidora que vende pelo WhatsApp</span>
-    </div>
-  </div>
-</section>
-
-<section class="cap" id="capacidade" aria-labelledby="cap-h">
-  <div class="wrap">
-    <div class="grid cap-head">
-      <h2 class="h2" id="cap-h">O que a gente constrói, a partir do que trava.</h2>
-      <p class="lede">Site, sistema, automação e integração são ferramentas. O trabalho começa pelo problema e só depois escolhe qual delas resolve, inclusive quando a resposta é não construir nada.</p>
-    </div>
-    <ol class="caps">
-{caps}
+    <ol class="lanes" aria-label="Regras do sistema, uma para cada tipo de papel">
+{lanes}
     </ol>
+    <div class="pilha-ctl">
+      <button class="btn primary sys" type="button" id="sys-toggle" aria-pressed="false" data-solid><span class="sw" aria-hidden="true"></span><span class="tl">Ligar o sistema</span></button>
+      <a class="link" href="#conversa" data-solid>Conversar sobre a demanda <span aria-hidden="true">→</span></a>
+      <p class="mono sys-status" id="sys-status" aria-live="polite" data-solid>exemplo: um dia numa distribuidora · arraste os papéis ou ligue o sistema</p>
+    </div>
+  </div>
+  <div class="desk" data-engine="{p}assets/matter.min.js">
+    <p class="desk-k mono">exemplo · um dia de trabalho numa distribuidora</p>
+    <ul class="papers" aria-label="O que chega num dia de trabalho">
+{papers}
+    </ul>
+  </div>
+</section>
+
+<section class="thesis-s" aria-labelledby="tese-h">
+  <div class="wrap">
+    <h2 class="thesis" id="tese-h">Toda empresa já tem um sistema. <span>Às vezes, ele é uma pessoa que não pode tirar férias.</span></h2>
+  </div>
+</section>
+
+<section class="mapa" id="capacidade" aria-labelledby="mapa-h">
+  <div class="wrap">
+    <div class="grid mapa-head">
+      <h2 class="h2" id="mapa-h">Por dentro de um sistema.</h2>
+      <p class="lede">Cada papel que você viu passa por estas partes. Escolha uma para ver o que a gente constrói ali, o que já existe e quanto custa.</p>
+    </div>
+    <div class="rail" aria-hidden="true"><span class="rail-line"></span><span class="pkt"></span><span class="pkt"></span><span class="pkt"></span><span class="pkt"></span></div>
+    <div class="stations" role="tablist" aria-label="Partes de um sistema">
+{station_tabs}
+    </div>
+{station_panels}
   </div>
 </section>
 
@@ -471,6 +495,7 @@ def home(p, noindex):
 
 {talk(p)}
 </main>
+<script src="{p}assets/desk.js" defer></script>
 """ + footer(p, noindex)
 
 # ────────────────────────────── páginas internas ──────────────────────────────
@@ -645,7 +670,7 @@ def lp(k, p):
     entra = "".join(f"<li><b>{t}</b> {x}</li>" for t, x in d["entra"])
     ev = "".join(f"<li><h3>{t}</h3><p>{x}</p></li>" for t, x in evid)
     aside = f'<span class="mono aside-k">o que entra</span><ol class="pains lp-entra">{entra}</ol>'
-    meta = f'<a class="btn primary" href="#conversa">{d["cta"]} <span class="arr" aria-hidden="true">→</span></a><a class="link" href="{p}#maquina">Ver como é construído</a>'
+    meta = f'<a class="btn primary" href="#conversa">{d["cta"]} <span class="arr" aria-hidden="true">→</span></a><a class="link" href="{p}#capacidade">Ver como é construído</a>'
     body = page_head(p, [f'<a href="{p}">início</a>', f'<span>{d["seg"]}</span>'], d["seg"], d["h1"], d["lede"], meta, aside)
     body += block("Nossa evidência", "o que já construímos", f'<ol class="evidence">{ev}</ol><p class="lede" style="margin-top:22px">Não temos parede de logos nem depoimento. Somos uma equipe nova e não inventamos cliente: o que mostramos é o que construímos e validamos.</p>')
     body += talk(p, "Quer ver isso rodando na sua operação?", intent=d["intent"])
@@ -696,6 +721,7 @@ def main():
     os.makedirs(os.path.join(assets, "img"), exist_ok=True)
     shutil.copy(os.path.join(ROOT, "gg.css"), assets)
     shutil.copy(os.path.join(ROOT, "gg.js"), assets)
+    shutil.copy(os.path.join(ROOT, "desk.js"), assets)
     shutil.copy(os.path.join(ROOT, "assets", "og.png"), os.path.join(out, "og.png"))
     for f in os.listdir(os.path.join(ROOT, "assets")):
         src = os.path.join(ROOT, "assets", f)
