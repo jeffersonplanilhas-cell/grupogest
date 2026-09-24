@@ -342,7 +342,7 @@ STATIONS = [
 ]
 
 PROOF = [
-  ("Este site", "em uso agora", 'A pilha de papéis, o mapa e o formulário foram escritos à mão, sem framework de interface: cerca de 11 KB de JavaScript próprio comprimido, mais um motor de física de código aberto que só carrega quando a pilha aparece. O código é público, no <a href="https://github.com/jeffersonplanilhas-cell/grupogest" rel="noopener">GitHub</a>.'),
+  ("Este site", "em uso agora", 'A pilha de papéis, o mapa e o formulário foram escritos à mão, sem framework de interface: cerca de 8 KB de JavaScript próprio comprimido, mais um motor de física de código aberto que só carrega quando a pilha aparece. O código é público, no <a href="https://github.com/jeffersonplanilhas-cell/grupogest" rel="noopener">GitHub</a>.'),
   ("Construa360", "produto próprio · pré-lançamento", "Gestão de obras: equipe, ponto, financeiro e suprimentos. Python/FastAPI, PostgreSQL, mais de 400 testes automatizados e app em Expo/React Native. Não é case de cliente."),
   ("Calculadora de prejuízo na obra", "landing pública do Construa360", "Estima a perda mensal de uma obra a partir de índices da literatura brasileira. Roda inteira no navegador, sem rastreamento, com a metodologia aberta."),
   ("Loja em Next.js", "projeto interno", "Catálogo, carrinho e checkout com Pix e cartão via Mercado Pago, frete pelo Melhor Envio e confirmação de pagamento por webhook."),
@@ -730,7 +730,7 @@ def main():
         else:
             shutil.copy(src, assets)
     if a.prod:
-        now = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+        now = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%d")
         urls = [("", "1", "monthly"), ("parcerias/", "0.8", "monthly"), ("contato/", "0.7", "yearly")] + [(f"solucoes/{k}/", "0.9", "monthly") for k in ORDEM]
         sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + "".join(
             f"<url>\n<loc>{BASE_URL}{u}</loc>\n<lastmod>{now}</lastmod>\n<changefreq>{c}</changefreq>\n<priority>{pr}</priority>\n</url>\n" for u, pr, c in urls) + "</urlset>\n"
