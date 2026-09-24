@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Imobiliária Exemplo · vitrine de imóveis (demonstração GrupoGest)</title>
+<meta name="description" content="Demonstração: vitrine de imóveis que se atualiza sozinha a partir de uma planilha do Google, com filtros, link por imóvel e WhatsApp com o código.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:,">
+<style>
+:root{--ink:#16202c;--ink-2:#4a5563;--ink-3:#6b7480;--line:#e3e6ea;--bg:#f6f7f8;--card:#fff;--brand:#1f5f8b;--brand-ink:#fff;--venda:#1f5f8b;--loc:#2f7a4f;--dest:#b5540a;--wa:#1c7a4a;--r:10px}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--ink:#eef1f4;--ink-2:#c3cad2;--ink-3:#98a1ab;--line:#2a3340;--bg:#10151c;--card:#171e27;--brand:#5ea8dc;--brand-ink:#0b1016;--venda:#5ea8dc;--loc:#5fc28a;--dest:#f0a15a;--wa:#3fbf7f}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+a{color:var(--brand)}
+.demo{background:var(--ink);color:var(--bg);font-size:13px;padding:8px 16px;text-align:center}
+.demo a{color:inherit}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header.top{background:var(--card);border-bottom:1px solid var(--line)}
+header.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:64px}
+.logo{font-weight:800;letter-spacing:-.01em;font-size:18px}
+.logo span{color:var(--brand)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 16px;border-radius:var(--r);font-weight:650;text-decoration:none;border:0;cursor:pointer;font:inherit;font-weight:650}
+.btn.wa{background:var(--wa);color:#fff}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.hero{padding:28px 0 8px}
+.hero h1{font-size:clamp(1.6rem,1.2rem + 2vw,2.4rem);line-height:1.15;margin:0 0 6px;letter-spacing:-.02em}
+.hero p{margin:0;color:var(--ink-2)}
+form#filtros{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:18px 0 8px;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:12px}
+.seg{grid-column:1/-1;display:flex;border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.seg label{flex:1;position:relative}
+.seg input{position:absolute;opacity:0;inset:0}
+.seg span{display:flex;align-items:center;justify-content:center;min-height:44px;padding:0 14px;font-weight:600;color:var(--ink-2);cursor:pointer}
+.seg input:checked+span{background:var(--brand);color:var(--brand-ink)}
+.seg input:focus-visible+span{outline:2px solid var(--brand);outline-offset:-4px}
+.fld{display:flex;flex-direction:column;gap:4px;font-size:13px;color:var(--ink-3)}
+.fld select,.fld input{font:inherit;font-size:15px;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;min-height:44px;padding:0 10px;width:100%}
+@media (min-width:860px){form#filtros{grid-template-columns:auto repeat(5,minmax(0,1fr));align-items:end}.seg{grid-column:auto;min-width:240px}}
+#count{color:var(--ink-3);margin:10px 0 12px;font-size:14px}
+#grid{list-style:none;margin:0 0 40px;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+.card-btn{all:unset;display:flex;flex-direction:column;width:100%;height:100%;background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;cursor:pointer;box-sizing:border-box}
+.card-btn:hover{border-color:var(--brand)}
+.card-btn:focus-visible{outline:3px solid var(--brand);outline-offset:2px}
+.ph{position:relative;aspect-ratio:400/260;background:var(--line)}
+.ph img{width:100%;height:100%;object-fit:cover;display:block}
+.tag{position:absolute;top:10px;left:10px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;padding:4px 8px;border-radius:6px;color:#fff}
+.t-venda{background:var(--venda)}.t-loc{background:var(--loc)}
+.t-dest{left:auto;right:10px;background:var(--dest)}
+.cb{padding:12px 14px 14px;display:flex;flex-direction:column;gap:4px;flex:1}
+.pr{margin:0;font-size:20px;font-weight:800}
+.cb h3{margin:0;font-size:16px;line-height:1.3}
+.loc{margin:0;color:var(--ink-2);font-size:14px}
+.sp{list-style:none;margin:6px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:4px 12px;font-size:13px;color:var(--ink-3)}
+.cod{margin:auto 0 0;padding-top:8px;font-size:12px;color:var(--ink-3);font-family:ui-monospace,Menlo,monospace}
+dialog{border:0;padding:0;border-radius:14px;width:min(720px,calc(100% - 24px));max-height:calc(100% - 24px);background:var(--card);color:var(--ink)}
+dialog::backdrop{background:rgba(10,14,20,.55)}
+.d-img{width:100%;aspect-ratio:400/220;object-fit:cover;display:block;background:var(--line)}
+.d-body{padding:16px 18px 20px;display:flex;flex-direction:column;gap:6px}
+.d-body h2{margin:0;font-size:20px;line-height:1.25}
+.d-act{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+.d-x{position:absolute;top:10px;right:10px;width:44px;height:44px;border-radius:50%;border:0;background:rgba(0,0,0,.55);color:#fff;font-size:22px;cursor:pointer}
+.d-tag{align-self:flex-start;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--brand)}
+.how{background:var(--card);border-top:1px solid var(--line);padding:32px 0 40px}
+.how h2{margin:0 0 14px;font-size:22px}
+.how ol{margin:0;padding-left:1.2em;display:grid;gap:8px;max-width:70ch;color:var(--ink-2)}
+.how b{color:var(--ink)}
+footer{padding:20px 0 32px;color:var(--ink-3);font-size:13px}
+body:not(.ok) #grid{min-height:40vh}
+</style>
+</head>
+<body>
+<p class="demo">Demonstração da <a href="https://jeffersonplanilhas-cell.github.io/grupogest/">GrupoGest</a> · imóveis e imobiliária fictícios · <a href="#como-funciona">como funciona</a></p>
+<header class="top">
+  <div class="wrap">
+    <div class="logo">Imobiliária <span>Exemplo</span></div>
+    <a class="btn wa" data-wa-geral href="#" rel="noopener">Falar no WhatsApp</a>
+  </div>
+</header>
+<main class="wrap">
+  <section class="hero">
+    <h1>Encontre seu imóvel em Cidade Exemplo</h1>
+    <p>Casas, apartamentos, terrenos e salas para comprar ou alugar.</p>
+  </section>
+  <form id="filtros" aria-label="Filtrar imóveis">
+    <div class="seg" role="radiogroup" aria-label="Finalidade">
+      <label><input type="radio" name="fin" value="" checked><span>Todos</span></label>
+      <label><input type="radio" name="fin" value="venda"><span>Comprar</span></label>
+      <label><input type="radio" name="fin" value="locação"><span>Alugar</span></label>
+    </div>
+    <label class="fld">Tipo<select name="tipo" id="f-tipo"><option value="">Todos</option></select></label>
+    <label class="fld">Bairro<select name="bairro" id="f-bairro"><option value="">Todos</option></select></label>
+    <label class="fld">Quartos<select name="quartos"><option value="0">Qualquer</option><option value="1">1 ou mais</option><option value="2">2 ou mais</option><option value="3">3 ou mais</option><option value="4">4 ou mais</option></select></label>
+    <label class="fld">Preço até (R$)<input name="max" inputmode="numeric" placeholder="sem limite" autocomplete="off"></label>
+    <label class="fld">Ordenar<select name="ord"><option value="">Destaques</option><option value="menor">Menor preço</option><option value="maior">Maior preço</option><option value="area">Maior área</option></select></label>
+  </form>
+  <p id="count" aria-live="polite">Carregando imóveis…</p>
+  <ul id="grid"></ul>
+</main>
+<dialog id="detalhe" aria-labelledby="d-tit">
+  <button class="d-x" id="d-x" type="button" aria-label="Fechar">×</button>
+  <img class="d-img" id="d-img" alt="">
+  <div class="d-body">
+    <span class="d-tag" id="d-tag"></span>
+    <p class="pr" id="d-pr"></p>
+    <h2 id="d-tit"></h2>
+    <p class="loc" id="d-loc"></p>
+    <ul class="sp" id="d-sp"></ul>
+    <p id="d-desc"></p>
+    <p class="cod" id="d-cod"></p>
+    <div class="d-act">
+      <a class="btn wa" id="d-wa" href="#" target="_blank" rel="noopener">Tenho interesse</a>
+      <button class="btn ghost" id="d-share" type="button">Copiar link do imóvel</button>
+    </div>
+  </div>
+</dialog>
+<section class="how" id="como-funciona">
+  <div class="wrap">
+    <h2>Como este site funciona</h2>
+    <ol>
+      <li><b>Os imóveis ficam numa planilha do Google</b>, uma linha por imóvel: código, tipo, bairro, preço, quartos, fotos e descrição. <a href="imoveis.csv">Veja a planilha deste exemplo</a>.</li>
+      <li><b>Mudou a planilha, o site muda sozinho</b> em alguns minutos. Cadastrar, trocar preço ou tirar um imóvel vendido não depende de programador.</li>
+      <li><b>Cada imóvel tem link próprio</b> para mandar ao cliente, e o botão de WhatsApp já leva o código do imóvel na mensagem.</li>
+      <li><b>Sem mensalidade de plataforma.</b> O site fica hospedado de graça; o único custo fixo é o domínio.</li>
+    </ol>
+  </div>
+</section>
+<footer class="wrap">Demonstração feita pela <a href="https://jeffersonplanilhas-cell.github.io/grupogest/">GrupoGest</a>. Nomes, imóveis e preços desta página são fictícios.</footer>
+<script src="vitrine.js" defer></script>
+</body>
+</html>

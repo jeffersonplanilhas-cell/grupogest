@@ -1,0 +1,13 @@
+codigo,finalidade,tipo,bairro,cidade,preco,quartos,banheiros,vagas,area_m2,destaque,titulo,descricao,foto_url
+AP-101,venda,Apartamento,Centro,Cidade Exemplo,389000,2,2,1,68,sim,"Apartamento de 2 quartos perto de tudo","Sala com sacada, cozinha planejada, 1 suíte, prédio com elevador e portaria. A duas quadras do comércio central.",
+CA-102,venda,Casa,Jardim América,Cidade Exemplo,640000,3,3,2,165,sim,"Casa térrea com quintal e churrasqueira","3 quartos (1 suíte), área gourmet com churrasqueira, quintal gramado e garagem para 2 carros. Rua tranquila.",
+AP-103,locação,Apartamento,Vila Nova,Cidade Exemplo,1800,2,1,1,55,sim,"Apartamento reformado para alugar","Piso novo, armários na cozinha e no quarto, área de serviço separada. Condomínio com salão de festas.",
+CA-104,locação,Casa,Parque das Flores,Cidade Exemplo,2600,3,2,2,120,não,"Casa com 3 quartos e edícula","Edícula nos fundos, ideal para escritório. Perto de escola e mercado.",
+TE-105,venda,Terreno,Residencial Bela Vista,Cidade Exemplo,185000,0,0,0,300,não,"Terreno plano em condomínio","300 m², plano, rua asfaltada, condomínio com portaria 24 h e área de lazer.",
+SA-106,locação,Comercial,Centro,Cidade Exemplo,3900,0,2,2,140,sim,"Salão comercial na avenida principal","Frente de 8 m, pé-direito alto, 2 banheiros e mezanino. Ponto de grande movimento.",
+AP-107,venda,Apartamento,Jardim América,Cidade Exemplo,520000,3,2,2,92,não,"Apartamento de 3 quartos com varanda gourmet","Varanda com churrasqueira, 1 suíte, 2 vagas cobertas. Condomínio com piscina e academia.",
+CA-108,venda,Casa,Vila Nova,Cidade Exemplo,298000,2,1,1,80,não,"Casa de 2 quartos, pronta para morar","Reformada, com área de serviço coberta e quintal pequeno. Boa para primeiro imóvel.",
+CA-109,venda,Casa,Residencial Bela Vista,Cidade Exemplo,1150000,4,5,4,320,sim,"Sobrado em condomínio fechado","4 suítes, piscina, espaço gourmet, escritório e jardim. Condomínio com segurança 24 h.",
+AP-110,locação,Apartamento,Centro,Cidade Exemplo,1350,1,1,0,38,não,"Studio mobiliado no centro","Mobiliado, com ar-condicionado e internet inclusa no condomínio. Ideal para quem trabalha no centro.",
+SA-111,venda,Comercial,Parque das Flores,Cidade Exemplo,720000,0,3,6,260,não,"Galpão com escritório","Galpão de 200 m² com escritório de 60 m², pé-direito de 7 m e entrada para caminhão.",
+CA-112,locação,Casa,Jardim América,Cidade Exemplo,4200,4,3,3,210,não,"Casa ampla com piscina","4 quartos (2 suítes), piscina, área gourmet e quintal. Aceita pet.",
