@@ -28,8 +28,8 @@
   <div class="wrap">
     <a class="brand" href="" aria-label="GrupoGest, início"><img src="assets/icon.svg" alt="" width="26" height="26"><b aria-hidden="true">Grupo<i>Gest</i></b></a>
     <nav aria-label="Principal">
-      <a href="#maquina">O sistema</a>
-      <a href="#capacidade">O que construímos</a>
+      <a href="#capacidade">O sistema</a>
+      <a href="#metodo">Como funciona</a>
       <a href="#prova">Prova</a>
       <a href="parcerias/">Agências</a>
     </nav>
@@ -38,115 +38,123 @@
 </header>
 <main id="conteudo">
 
-<section class="hero" aria-labelledby="hero-h">
-  <div class="wrap grid hero-grid">
-    <p class="mono where">Franca/SP · sistemas, sites, automação e integrações para empresas de todo o Brasil</p>
-    <h1 class="h1" id="hero-h"><span>Trabalho manual vira sistema</span><span class="soft">que roda sozinho.</span></h1>
-    <div class="hero-side">
-      <p class="hero-lede">A gente encontra o que sua equipe repete todo dia (copiar, conferir, cobrar, lembrar) e constrói o que faz isso por ela. Com registro de tudo e preço fechado antes de começar.</p>
-      <div class="cta-row">
-        <a class="btn primary" href="#conversa">Conversar sobre a demanda <span class="arr" aria-hidden="true">→</span></a>
-        <a class="link" href="#maquina">Ver o sistema funcionando</a>
-      </div>
+<section class="pilha" id="pilha" aria-labelledby="hero-h">
+  <div class="wrap pilha-grid">
+    <div class="pilha-copy">
+      <p class="mono where">Franca/SP · sistemas, sites, automação e integrações para empresas de todo o Brasil</p>
+      <h1 class="h1 pilha-h1" id="hero-h"><span class="ln">Trabalho manual</span> <span class="ln">vira sistema</span> <span class="ln soft">que roda sozinho.</span></h1>
     </div>
-    <div class="ledger" id="ledger">
-      <div class="ledger-head mono"><span>registro · exemplo</span><span class="wide-only">o que chega → a regra que resolve</span></div>
-      <ol class="lrows" aria-label="Exemplos de pedidos do dia a dia e a regra que resolve cada um">
-        <li class="lrow"><span class="lr-in">cadê o boleto do mês?</span><span class="lr-rule mono">cobrança · sai sozinha</span></li>
-        <li class="lrow"><span class="lr-in">40 caixas do modelo 42 até sexta</span><span class="lr-rule mono">pedido · registrado</span></li>
-        <li class="lrow"><span class="lr-in">ela pagou? confere o extrato</span><span class="lr-rule mono">pagamento · baixa automática</span></li>
-        <li class="lrow is-hidden-mobile"><span class="lr-in">manda de novo aquela planilha</span><span class="lr-rule mono">dados · fonte única</span></li>
-        <li class="lrow"><span class="lr-in">qual versão vale?</span><span class="lr-rule mono">histórico · uma versão só</span></li>
-        <li class="lrow is-hidden-mobile"><span class="lr-in">quem ficou de ligar pro cliente?</span><span class="lr-rule mono">retorno · lembrete na hora</span></li>
-        <li class="lrow"><span class="lr-in">remarca a Ana pra quinta, 15h</span><span class="lr-rule mono">agenda · confirmada</span></li>
-        <li class="lrow"><span class="lr-in">junta os números pro sócio</span><span class="lr-rule mono">painel · sexta, 17h</span></li>
-        <li class="lrow is-hidden-mobile"><span class="lr-in">copia do WhatsApp pro sistema</span><span class="lr-rule mono">integração · sem redigitar</span></li>
-        <li class="lrow is-hidden-mobile"><span class="lr-in">o site saiu do ar?</span><span class="lr-rule mono">monitor · alerta automático</span></li>
-      </ol>
-      <div class="ledger-foot mono"><span>cada frase repetida vira uma regra</span><button type="button" id="ledger-replay">embaralhar</button></div>
-    </div>
-  </div>
-</section>
-
-<section class="machine" id="maquina" aria-labelledby="maq-h">
-  <div class="wrap">
-    <div class="grid">
-      <h2 class="thesis" id="maq-h">Toda empresa já tem um sistema. <span>Às vezes, ele é uma pessoa que não pode tirar férias.</span></h2>
-      <p class="lede machine-lede">Ligue e desligue as regras. Cada mensagem que chega é resolvida pelo sistema ou fica esperando alguém.</p>
-    </div>
-    <div class="mach" id="mach">
-      <div class="mcol m-in"><header class="mono"><b>entrada</b><span>chegando agora</span></header><ol class="mlist" id="m-queue" aria-label="Mensagens chegando"></ol></div>
-      <p class="now mono" id="m-now" aria-live="off"></p>
-      <div class="mcol m-rules"><header class="mono"><b>regra</b><span>ligue para o sistema assumir</span></header>
-        <div class="rules">
-          <button class="rule" type="button" role="switch" aria-checked="true" data-r="pedido"><span class="sw" aria-hidden="true"></span><span class="rt">Pedido completo</span><span class="ra">registra no sistema e emite a cobrança</span></button>
-          <button class="rule" type="button" role="switch" aria-checked="false" data-r="pagamento"><span class="sw" aria-hidden="true"></span><span class="rt">Pagamento e cobrança</span><span class="ra">confere, dá baixa ou manda a 2ª via</span></button>
-          <button class="rule" type="button" role="switch" aria-checked="false" data-r="pergunta"><span class="sw" aria-hidden="true"></span><span class="rt">Pergunta frequente</span><span class="ra">responde na hora, com a informação certa</span></button>
-          <button class="rule" type="button" role="switch" aria-checked="false" data-r="resumo"><span class="sw" aria-hidden="true"></span><span class="rt">Sexta, 17h</span><span class="ra">junta os números e envia o resumo</span></button>
-        </div>
-      </div>
-      <div class="mcol is-auto"><header class="mono"><b>feito pelo sistema</b><span class="n" id="m-auto-n">0</span></header><ol class="mlist" id="m-auto" aria-label="Feito pelo sistema"></ol></div>
-      <div class="mcol is-man"><header class="mono"><b>esperando alguém</b><span class="n" id="m-man-n">0</span></header><ol class="mlist" id="m-man" aria-label="Esperando alguém"></ol></div>
-    </div>
-    <div class="mach-bar">
-      <button class="ctl" type="button" id="m-play" aria-pressed="false">Pausar</button>
-      <button class="ctl" type="button" id="m-step">Processar próxima</button>
-      <button class="ctl" type="button" id="m-reset">Recomeçar</button>
-      <span class="note mono">exemplo ilustrativo de uma distribuidora que vende pelo WhatsApp</span>
-    </div>
-  </div>
-</section>
-
-<section class="cap" id="capacidade" aria-labelledby="cap-h">
-  <div class="wrap">
-    <div class="grid cap-head">
-      <h2 class="h2" id="cap-h">O que a gente constrói, a partir do que trava.</h2>
-      <p class="lede">Site, sistema, automação e integração são ferramentas. O trabalho começa pelo problema e só depois escolhe qual delas resolve, inclusive quando a resposta é não construir nada.</p>
-    </div>
-    <ol class="caps">
-      <li><a class="caprow" href="solucoes/sites/">
-        <h3>Sites e landing pages</h3>
-        <p><span class="c-k mono">quando</span>O cliente procura sua empresa e acha um link quebrado, um perfil ou nada.</p>
-        <p class="c-deliv"><span class="c-k mono">a gente entrega</span>Site rápido, encontrável no Google, com contato em todas as dobras.</p>
-        <p class="c-proof"><span class="c-k mono">já construímos</span>Landing de lead magnet construída e testada</p>
-        <p><span class="c-k mono">investimento</span><span class="price">R$ 690 a R$ 1.500</span><span class="go mono">ver detalhes →</span></p>
-      </a></li>
-      <li><a class="caprow" href="solucoes/automacao/">
-        <h3>Automação</h3>
-        <p><span class="c-k mono">quando</span>Alguém copia, confere e lembra todo dia o que uma regra faria melhor.</p>
-        <p class="c-deliv"><span class="c-k mono">a gente entrega</span>Fluxo em n8n ou Python, com registro do que rodou e tratamento de erro.</p>
-        <p class="c-proof"><span class="c-k mono">já construímos</span>Pipeline n8n + PostgreSQL + webhooks validado</p>
-        <p><span class="c-k mono">investimento</span><span class="price">a partir de R$ 150</span><span class="go mono">ver detalhes →</span></p>
-      </a></li>
-      <li><a class="caprow" href="solucoes/integracoes/">
-        <h3>Integrações</h3>
-        <p><span class="c-k mono">quando</span>O pedido entra num sistema e alguém redigita no outro.</p>
-        <p class="c-deliv"><span class="c-k mono">a gente entrega</span>Ponte com fila, repetição e alerta quando a integração para.</p>
-        <p class="c-proof"><span class="c-k mono">já construímos</span>Mercado Pago e Melhor Envio integrados em loja própria</p>
-        <p><span class="c-k mono">investimento</span><span class="price">sob orçamento</span><span class="go mono">ver detalhes →</span></p>
-      </a></li>
-      <li><a class="caprow" href="solucoes/sistemas/">
-        <h3>Sistemas sob medida</h3>
-        <p><span class="c-k mono">quando</span>A planilha virou o sistema da empresa, e o maior risco dela.</p>
-        <p class="c-deliv"><span class="c-k mono">a gente entrega</span>Web, API e aplicativo com acesso por usuário, regra e histórico.</p>
-        <p class="c-proof"><span class="c-k mono">já construímos</span>Construa360: FastAPI, PostgreSQL, 400+ testes, app Expo</p>
-        <p><span class="c-k mono">investimento</span><span class="price">sob orçamento</span><span class="go mono">ver detalhes →</span></p>
-      </a></li>
-      <li><a class="caprow" href="solucoes/ecommerce/">
-        <h3>E-commerce</h3>
-        <p><span class="c-k mono">quando</span>A loja vende, mas pagamento, frete e expedição dependem de alguém conferir.</p>
-        <p class="c-deliv"><span class="c-k mono">a gente entrega</span>Loja em Next.js com Pix, cartão, frete calculado e confirmação por webhook.</p>
-        <p class="c-proof"><span class="c-k mono">já construímos</span>Loja própria completa em Next.js</p>
-        <p><span class="c-k mono">investimento</span><span class="price">sob orçamento</span><span class="go mono">ver detalhes →</span></p>
-      </a></li>
-      <li><a class="caprow" href="solucoes/dashboards/">
-        <h3>Dados e indicadores</h3>
-        <p><span class="c-k mono">quando</span>O número da semana só existe depois de uma tarde juntando planilha.</p>
-        <p class="c-deliv"><span class="c-k mono">a gente entrega</span>Painel que se atualiza sozinho, a partir de uma fonte única.</p>
-        <p class="c-proof"><span class="c-k mono">já construímos</span>Painel operacional próprio gerado por script</p>
-        <p><span class="c-k mono">investimento</span><span class="price">planilha a partir de R$ 450</span><span class="go mono">ver detalhes →</span></p>
-      </a></li>
+    <ol class="lanes" aria-label="Regras do sistema, uma para cada tipo de papel">
+      <li class="lane" data-t="pedido"><span class="lane-h"><b>pedidos</b> <span class="lane-n mono">0</span></span><span class="lane-slot" aria-hidden="true"></span><span class="lane-r mono">registra e emite a cobrança</span></li>
+      <li class="lane" data-t="pagamento"><span class="lane-h"><b>pagamentos</b> <span class="lane-n mono">0</span></span><span class="lane-slot" aria-hidden="true"></span><span class="lane-r mono">confere o extrato e dá baixa</span></li>
+      <li class="lane" data-t="agenda"><span class="lane-h"><b>agenda</b> <span class="lane-n mono">0</span></span><span class="lane-slot" aria-hidden="true"></span><span class="lane-r mono">confirma e avisa a equipe</span></li>
+      <li class="lane" data-t="pergunta"><span class="lane-h"><b>perguntas</b> <span class="lane-n mono">0</span></span><span class="lane-slot" aria-hidden="true"></span><span class="lane-r mono">responde na hora</span></li>
+      <li class="lane" data-t="numeros"><span class="lane-h"><b>números</b> <span class="lane-n mono">0</span></span><span class="lane-slot" aria-hidden="true"></span><span class="lane-r mono">painel pronto na sexta</span></li>
     </ol>
+    <div class="pilha-ctl">
+      <button class="btn primary sys" type="button" id="sys-toggle" aria-pressed="false" data-solid><span class="sw" aria-hidden="true"></span><span class="tl">Ligar o sistema</span></button>
+      <a class="link" href="#conversa" data-solid>Conversar sobre a demanda <span aria-hidden="true">→</span></a>
+      <p class="mono sys-status" id="sys-status" aria-live="polite" data-solid>exemplo: um dia numa distribuidora · arraste os papéis ou ligue o sistema</p>
+    </div>
+  </div>
+  <div class="desk" data-engine="assets/matter.min.js">
+    <p class="desk-k mono">exemplo · um dia de trabalho numa distribuidora</p>
+    <ul class="papers" aria-label="O que chega num dia de trabalho">
+      <li class="paper" data-t="pedido"><span class="pc mono">whatsapp · 09:12</span><span class="pt">40 caixas do modelo 42 até sexta</span></li>
+      <li class="paper" data-t="pagamento"><span class="pc mono">whatsapp · 08:55</span><span class="pt">paguei no pix agora, R$ 640</span></li>
+      <li class="paper" data-t="agenda"><span class="pc mono">whatsapp · 08:15</span><span class="pt">remarca a Ana pra quinta, 15h</span></li>
+      <li class="paper" data-t="pergunta"><span class="pc mono">site · 10:05</span><span class="pt">vocês entregam em Ribeirão Preto?</span></li>
+      <li class="paper" data-t="numeros"><span class="pc mono">planilha · 17:58</span><span class="pt">estoque_v3_FINAL(2).xlsx</span></li>
+      <li class="paper" data-t="pedido"><span class="pc mono">e-mail · 10:40</span><span class="pt">pedido 1182: 60 caixas do 40</span></li>
+      <li class="paper" data-t="pagamento"><span class="pc mono">e-mail · 11:20</span><span class="pt">segue o comprovante de setembro</span></li>
+      <li class="paper" data-t="numeros"><span class="pc mono">sócio · 18:10</span><span class="pt">junta os números pra sexta</span></li>
+      <li class="paper desk-only" data-t="pedido"><span class="pc mono">site · 14:03</span><span class="pt">15 pares do 38, cor café</span></li>
+      <li class="paper desk-only" data-t="pagamento"><span class="pc mono">whatsapp · 16:47</span><span class="pt">o boleto venceu, manda outro?</span></li>
+      <li class="paper desk-only" data-t="agenda"><span class="pc mono">telefone · 13:30</span><span class="pt">dá pra encaixar hoje à tarde?</span></li>
+      <li class="paper desk-only" data-t="pergunta"><span class="pc mono">instagram · 15:22</span><span class="pt">qual o prazo de entrega?</span></li>
+      <li class="paper desk-only" data-t="pedido"><span class="pc mono">whatsapp · 11:02</span><span class="pt">mesmo pedido da semana passada</span></li>
+      <li class="paper desk-only" data-t="pagamento"><span class="pc mono">banco · 07:30</span><span class="pt">extrato.pdf (conferir)</span></li>
+      <li class="paper desk-only" data-t="agenda"><span class="pc mono">e-mail · 09:48</span><span class="pt">visita técnica: confirma terça?</span></li>
+      <li class="paper desk-only" data-t="pergunta"><span class="pc mono">whatsapp · 12:10</span><span class="pt">tem o 41 em estoque?</span></li>
+    </ul>
+  </div>
+</section>
+
+<section class="thesis-s" aria-labelledby="tese-h">
+  <div class="wrap">
+    <h2 class="thesis" id="tese-h">Toda empresa já tem um sistema. <span>Às vezes, ele é uma pessoa que não pode tirar férias.</span></h2>
+  </div>
+</section>
+
+<section class="mapa" id="capacidade" aria-labelledby="mapa-h">
+  <div class="wrap">
+    <div class="grid mapa-head">
+      <h2 class="h2" id="mapa-h">Por dentro de um sistema.</h2>
+      <p class="lede">Cada papel que você viu passa por estas partes. Escolha uma para ver o que a gente constrói ali, o que já existe e quanto custa.</p>
+    </div>
+    <div class="rail" aria-hidden="true"><span class="rail-line"></span><span class="pkt"></span><span class="pkt"></span><span class="pkt"></span><span class="pkt"></span></div>
+    <div class="stations" role="tablist" aria-label="Partes de um sistema">
+      <button class="st" type="button" role="tab" id="st-entrada" aria-controls="sp-entrada" aria-selected="false" tabindex="-1" data-k="entrada"><span class="st-i mono">01</span><b>Entrada</b><span class="st-s mono">onde o trabalho chega</span></button>
+      <button class="st" type="button" role="tab" id="st-regra" aria-controls="sp-regra" aria-selected="true" tabindex="0" data-k="regra"><span class="st-i mono">02</span><b>Regra</b><span class="st-s mono">o que decide</span></button>
+      <button class="st" type="button" role="tab" id="st-ponte" aria-controls="sp-ponte" aria-selected="false" tabindex="-1" data-k="ponte"><span class="st-i mono">03</span><b>Ponte</b><span class="st-s mono">o dado passa sozinho</span></button>
+      <button class="st" type="button" role="tab" id="st-registro" aria-controls="sp-registro" aria-selected="false" tabindex="-1" data-k="registro"><span class="st-i mono">04</span><b>Registro</b><span class="st-s mono">um lugar só</span></button>
+      <button class="st" type="button" role="tab" id="st-painel" aria-controls="sp-painel" aria-selected="false" tabindex="-1" data-k="painel"><span class="st-i mono">05</span><b>Painel</b><span class="st-s mono">os números saem sozinhos</span></button>
+      <button class="st" type="button" role="tab" id="st-rua" aria-controls="sp-rua" aria-selected="false" tabindex="-1" data-k="rua"><span class="st-i mono">06</span><b>Na rua</b><span class="st-s mono">a equipe no celular</span></button>
+    </div>
+    <div class="sp" role="tabpanel" id="sp-entrada" aria-labelledby="st-entrada" tabindex="0" data-k="entrada">
+      <h3 class="sp-h"><span class="mono">01 · onde o trabalho chega</span>Entrada</h3>
+      <dl class="sp-d">
+        <div><dt class="mono">a gente constrói</dt><dd>Site, formulário, loja e WhatsApp oficial recebendo pedido, pergunta e pagamento, cada um já no formato certo.</dd></div>
+        <div><dt class="mono">já existe</dt><dd>Loja em Next.js com Pix e cartão via Mercado Pago; landing de lead magnet testada.</dd></div>
+        <div><dt class="mono">investimento</dt><dd class="sp-p">site de R$ 690 a R$ 1.500</dd></div>
+      </dl>
+      <p class="sp-links"><a class="link" href="solucoes/sites/">Sites e landing pages <span aria-hidden="true">→</span></a> <a class="link" href="solucoes/ecommerce/">E-commerce <span aria-hidden="true">→</span></a></p>
+    </div>
+    <div class="sp" role="tabpanel" id="sp-regra" aria-labelledby="st-regra" tabindex="0" data-k="regra">
+      <h3 class="sp-h"><span class="mono">02 · o que decide</span>Regra</h3>
+      <dl class="sp-d">
+        <div><dt class="mono">a gente constrói</dt><dd>Fluxo em n8n ou Python que confere se veio completo, separa o urgente e decide o próximo passo, com registro do que rodou.</dd></div>
+        <div><dt class="mono">já existe</dt><dd>Pipeline n8n + PostgreSQL + webhooks validado ponta a ponta.</dd></div>
+        <div><dt class="mono">investimento</dt><dd class="sp-p">a partir de R$ 150</dd></div>
+      </dl>
+      <p class="sp-links"><a class="link" href="solucoes/automacao/">Automação <span aria-hidden="true">→</span></a></p>
+    </div>
+    <div class="sp" role="tabpanel" id="sp-ponte" aria-labelledby="st-ponte" tabindex="0" data-k="ponte">
+      <h3 class="sp-h"><span class="mono">03 · o dado passa sozinho</span>Ponte</h3>
+      <dl class="sp-d">
+        <div><dt class="mono">a gente constrói</dt><dd>Integração entre as ferramentas que você já paga: APIs e webhooks com fila, repetição e alerta quando para.</dd></div>
+        <div><dt class="mono">já existe</dt><dd>Mercado Pago e Melhor Envio integrados em loja própria.</dd></div>
+        <div><dt class="mono">investimento</dt><dd class="sp-p">sob orçamento</dd></div>
+      </dl>
+      <p class="sp-links"><a class="link" href="solucoes/integracoes/">Integrações <span aria-hidden="true">→</span></a></p>
+    </div>
+    <div class="sp" role="tabpanel" id="sp-registro" aria-labelledby="st-registro" tabindex="0" data-k="registro">
+      <h3 class="sp-h"><span class="mono">04 · um lugar só</span>Registro</h3>
+      <dl class="sp-d">
+        <div><dt class="mono">a gente constrói</dt><dd>Sistema web e API com acesso por usuário, regra que não pode ser burlada e histórico de quem mudou o quê.</dd></div>
+        <div><dt class="mono">já existe</dt><dd>Construa360: FastAPI, PostgreSQL e mais de 400 testes automatizados (produto próprio).</dd></div>
+        <div><dt class="mono">investimento</dt><dd class="sp-p">sob orçamento</dd></div>
+      </dl>
+      <p class="sp-links"><a class="link" href="solucoes/sistemas/">Sistemas sob medida <span aria-hidden="true">→</span></a></p>
+    </div>
+    <div class="sp" role="tabpanel" id="sp-painel" aria-labelledby="st-painel" tabindex="0" data-k="painel">
+      <h3 class="sp-h"><span class="mono">05 · os números saem sozinhos</span>Painel</h3>
+      <dl class="sp-d">
+        <div><dt class="mono">a gente constrói</dt><dd>Painel que se atualiza a partir de uma fonte única e responde a pergunta que muda a decisão da semana.</dd></div>
+        <div><dt class="mono">já existe</dt><dd>Painel operacional próprio gerado por script, lendo banco real.</dd></div>
+        <div><dt class="mono">investimento</dt><dd class="sp-p">planilha a partir de R$ 450</dd></div>
+      </dl>
+      <p class="sp-links"><a class="link" href="solucoes/dashboards/">Dados e indicadores <span aria-hidden="true">→</span></a></p>
+    </div>
+    <div class="sp" role="tabpanel" id="sp-rua" aria-labelledby="st-rua" tabindex="0" data-k="rua">
+      <h3 class="sp-h"><span class="mono">06 · a equipe no celular</span>Na rua</h3>
+      <dl class="sp-d">
+        <div><dt class="mono">a gente constrói</dt><dd>Aplicativo para quem trabalha fora consultar e registrar do celular, no mesmo sistema do escritório.</dd></div>
+        <div><dt class="mono">já existe</dt><dd>App do Construa360 em Expo/React Native, com build configurado (ainda não publicado em loja).</dd></div>
+        <div><dt class="mono">investimento</dt><dd class="sp-p">sob orçamento</dd></div>
+      </dl>
+      <p class="sp-links"><a class="link" href="solucoes/sistemas/">Sistemas sob medida <span aria-hidden="true">→</span></a></p>
+    </div>
   </div>
 </section>
 
@@ -157,11 +165,12 @@
       <h2 class="h2" id="prova-h">Somos novos. Levamos execução a sério.</h2>
       <p class="lede">Não temos parede de logos e não vamos inventar uma. Cada item abaixo existe, com o estado real ao lado.</p>
       <ol class="plist">
-        <li class="pitem"><h3>Construa360</h3><span class="st mono">produto próprio · pré-lançamento</span><p>Gestão de obras: equipe, ponto, financeiro e suprimentos. Python/FastAPI, PostgreSQL, mais de 400 testes automatizados e app em Expo/React Native. Não é case de cliente.</p></li>
-        <li class="pitem"><h3>Calculadora de prejuízo na obra</h3><span class="st mono">landing pública do Construa360</span><p>Estima a perda mensal de uma obra a partir de índices da literatura brasileira. Roda inteira no navegador, sem rastreamento, com a metodologia aberta.</p></li>
-        <li class="pitem"><h3>Loja em Next.js</h3><span class="st mono">projeto interno</span><p>Catálogo, carrinho e checkout com Pix e cartão via Mercado Pago, frete pelo Melhor Envio e confirmação de pagamento por webhook.</p></li>
-        <li class="pitem"><h3>Pipeline de automação</h3><span class="st mono">validado e arquivado</span><p>n8n, PostgreSQL e webhooks: gatilho, regra, banco e API externa testados ponta a ponta, com registro do que rodou e quando.</p></li>
-        <li class="pitem"><h3>A operação da GrupoGest</h3><span class="st mono">em uso diário</span><p>Prospecção, CRM e finanças num sistema que construímos para nós: banco de dados, rotinas com testes e painel gerado por script.</p></li>
+        <li class="pitem"><h3>Este site</h3><span class="pst mono">em uso agora</span><p>A pilha de papéis, o mapa e o formulário foram escritos à mão, sem framework de interface: cerca de 11 KB de JavaScript próprio comprimido, mais um motor de física de código aberto que só carrega quando a pilha aparece. O código é público, no <a href="https://github.com/jeffersonplanilhas-cell/grupogest" rel="noopener">GitHub</a>.</p></li>
+        <li class="pitem"><h3>Construa360</h3><span class="pst mono">produto próprio · pré-lançamento</span><p>Gestão de obras: equipe, ponto, financeiro e suprimentos. Python/FastAPI, PostgreSQL, mais de 400 testes automatizados e app em Expo/React Native. Não é case de cliente.</p></li>
+        <li class="pitem"><h3>Calculadora de prejuízo na obra</h3><span class="pst mono">landing pública do Construa360</span><p>Estima a perda mensal de uma obra a partir de índices da literatura brasileira. Roda inteira no navegador, sem rastreamento, com a metodologia aberta.</p></li>
+        <li class="pitem"><h3>Loja em Next.js</h3><span class="pst mono">projeto interno</span><p>Catálogo, carrinho e checkout com Pix e cartão via Mercado Pago, frete pelo Melhor Envio e confirmação de pagamento por webhook.</p></li>
+        <li class="pitem"><h3>Pipeline de automação</h3><span class="pst mono">validado e arquivado</span><p>n8n, PostgreSQL e webhooks: gatilho, regra, banco e API externa testados ponta a ponta, com registro do que rodou e quando.</p></li>
+        <li class="pitem"><h3>A operação da GrupoGest</h3><span class="pst mono">em uso diário</span><p>Prospecção, CRM e finanças num sistema que construímos para nós: banco de dados, rotinas com testes e painel gerado por script.</p></li>
       </ol>
     </div>
     <figure class="proof-shot" style="margin:0">
@@ -226,18 +235,26 @@
         <div class="way" data-whatsapp-row><div><div class="k mono">whatsapp</div><div class="v" data-whatsapp-num></div></div><a class="ctl on-ink" href="#" rel="noopener">Abrir conversa</a></div>
         <div class="way"><div><div class="k mono">e-mail</div><div class="v" data-email>carmojefferson868@gmail.com</div></div><button class="ctl on-ink" type="button" data-copy-email>Copiar</button></div>
       </div>
-      <p class="mono form-note">resposta por e-mail em até 1 dia útil</p>
     </div>
     <form class="form" id="talk-form" novalidate>
+      <fieldset class="chips">
+        <legend class="mono">o que está travando (marque o que servir)</legend>
+        <label class="chip"><input type="checkbox" name="assunto" value="pedidos"><span>pedidos</span></label><label class="chip"><input type="checkbox" name="assunto" value="cobrança"><span>cobrança</span></label><label class="chip"><input type="checkbox" name="assunto" value="agenda"><span>agenda</span></label><label class="chip"><input type="checkbox" name="assunto" value="atendimento"><span>atendimento</span></label><label class="chip"><input type="checkbox" name="assunto" value="planilha e números"><span>planilha e números</span></label><label class="chip"><input type="checkbox" name="assunto" value="site"><span>site</span></label><label class="chip"><input type="checkbox" name="assunto" value="sistema"><span>sistema</span></label><label class="chip"><input type="checkbox" name="assunto" value="integração"><span>integração</span></label><label class="chip"><input type="checkbox" name="assunto" value="outra coisa"><span>outra coisa</span></label>
+      </fieldset>
       <div class="row2">
         <label for="f-name">Seu nome<input id="f-name" name="nome" autocomplete="name" required data-label="nome"></label>
         <label for="f-contact">WhatsApp ou e-mail para a resposta<input id="f-contact" name="contato" autocomplete="email" inputmode="email" required data-label="como responder"></label>
       </div>
-      <label for="f-problem">O que trava hoje<textarea id="f-problem" name="problema" required data-label="o que trava" placeholder="O que acontece, quem faz, onde trava. Sem formalidade."></textarea></label>
+      <label for="f-problem">Em três linhas: o que acontece hoje?<textarea id="f-problem" name="problema" required data-label="o que trava" placeholder="O que acontece, quem faz, onde trava. Sem formalidade."></textarea></label>
       <div class="form-foot">
-        <button class="btn primary" type="submit">Montar a mensagem <span class="arr" aria-hidden="true">→</span></button>
+        <button class="btn primary" type="submit">Transformar em mensagem <span class="arr" aria-hidden="true">→</span></button>
         <p class="mono form-note" id="f-note" aria-live="polite"></p>
       </div>
+      <div class="tray" aria-live="polite">
+        <p class="tray-k mono"><span>caixa de entrada · GrupoGest</span><span>resposta em até 1 dia útil</span></p>
+        <div class="tray-slot" id="tray-slot"><span class="tray-empty mono">sua mensagem vira um papel e cai aqui</span></div>
+      </div>
+
       <div class="fallback" id="f-fallback" hidden>
         <p>Sua mensagem está pronta. Escolha como enviar:</p>
         <div class="acts">
@@ -254,6 +271,7 @@
 </section>
 
 </main>
+<script src="assets/desk.js" defer></script>
 <section class="agency" aria-label="Para agências">
   <div class="wrap">
     <p>Tem agência, consultoria ou estúdio? <span>A gente vira seu braço técnico, no seu nome, com preço fechado antes de você vender.</span></p>
@@ -270,8 +288,8 @@
     <nav aria-label="Site">
       <span class="mono">site</span>
       <a href="">Início</a>
-      <a href="#maquina">O sistema</a>
-      <a href="#capacidade">O que construímos</a>
+      <a href="#capacidade">O sistema</a>
+      <a href="#metodo">Como funciona</a>
       <a href="#prova">Prova</a>
       <a href="contato/">Contato</a>
     </nav>
